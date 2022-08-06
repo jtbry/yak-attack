@@ -23,16 +23,7 @@ const PostView = () => {
   } else {
     const yak = data.yak;
     const comments = getDataFromEdges(yak.comments);
-    const iconHtmlStyle = `
-                width: 2rem;
-                height: 2rem;
-                display: block;
-                left: -1.5rem;
-                top: -1.5rem;
-                position: relative;
-                border-radius: 3rem 3rem 0;
-                transform: rotate(45deg);
-                border: 1px solid #FFFFFF`;
+
     return (
       <div className="space-y-3">
         <LeafletMap
@@ -40,7 +31,7 @@ const PostView = () => {
           center={[yak.point.coordinates[1], yak.point.coordinates[0]]}
           zoom={21}
         >
-          <YakAvatarMarker forPost={yak} />
+          <YakAvatarMarker forPost={{ isOp: true, ...yak }} />
 
           {comments.map((comment) => (
             <YakAvatarMarker key={comment.id} forPost={comment} />
