@@ -1,11 +1,11 @@
 import { Comment } from "./Comment";
-import { GqlEdges } from "./GqlEdges";
+import { PaginatedEdges } from "./PaginatedEdges";
 
 export interface Yak {
   id: string;
   text: string;
   isMine: boolean;
-  comments: GqlEdges<Comment>;
+  comments: PaginatedEdges<Comment>;
   createdAt: string;
   userEmoji: string;
   userColor: string;

@@ -82,8 +82,14 @@ const commentFragment = gql`
 
 export const GET_YIKYAK_FEED = gql`
   ${yakFragment}
-  query GetYikyakFeed($feedType: FeedType, $feedOrder: FeedOrder, $location: FixedPointScalar!) {
-    feed(feedType: $feedType, feedOrder: $feedOrder, point: $location) {
+  query GetYikyakFeed($feedType: FeedType, $feedOrder: FeedOrder, $location: FixedPointScalar!, $after: String) {
+    feed(feedType: $feedType, feedOrder: $feedOrder, point: $location, after: $after) {
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
         edges {
             node {
               ...YakFragment
@@ -100,6 +106,12 @@ export const GET_YIKYAK_POST = gql`
     yak(id: $id) {
       ...YakFragment
       comments {
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
         edges {
           node {
             ...CommentFragment
@@ -121,6 +133,12 @@ export const GET_YIKYAK_PROFILE = gql`
       color
       yakarmaScore
       yaks {
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
         edges {
           node {
             ...YakFragment
@@ -128,6 +146,12 @@ export const GET_YIKYAK_PROFILE = gql`
         }
       }
       comments {
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
         edges {
           node {
             ...CommentFragment

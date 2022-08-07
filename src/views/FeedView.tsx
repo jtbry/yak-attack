@@ -5,14 +5,14 @@ import { useAppSelector } from '../app/hooks';
 import Notification from '../components/Notification';
 import PageLoader from '../components/PageLoader';
 import YakCard from '../components/YakCard';
-import { getDataFromEdges, GqlEdges } from '../model/GqlEdges';
+import { getDataFromEdges, PaginatedEdges } from '../model/PaginatedEdges';
 import { Yak } from '../model/Yak';
 import { POST_VIEW } from '../utils/constants';
 
 const FeedView = (): JSX.Element => {
   const navigate = useNavigate();
-  const location = useAppSelector((state) => state.yikyakUser.location);
-  const { loading, error, data } = useQuery<{ feed: GqlEdges }>(
+  const location = useAppSelector((state) => state.location.point);
+  const { loading, error, data } = useQuery<{ feed: PaginatedEdges<Yak> }>(
     GET_YIKYAK_FEED,
     {
       variables: {
@@ -33,10 +33,6 @@ const FeedView = (): JSX.Element => {
       />
     );
   }
-
-  const loadFunc = (): void => {
-    console.log('Load');
-  };
 
   const yikyaks: Yak[] = data ? getDataFromEdges(data.feed) : [];
   return (

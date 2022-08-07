@@ -21,7 +21,7 @@ const YakAvatarMarker = ({ forPost }: YakAvatarMarkerProps) => {
   );
 
   const iconStyle = `
-    background-color: ${forPost.userColor};
+    background-color: ${forPost.userColor ?? 'gray'};
     width: fit-content;
     padding: 0.2rem;
     position: relative;

@@ -7,7 +7,7 @@ import YakAvatarMarker from '../components/MapAddons/YakAvatarMarker';
 import YakCard from '../components/YakCard';
 import YakComment from '../components/YakComment';
 import { Comment } from '../model/Comment';
-import { getDataFromEdges } from '../model/GqlEdges';
+import { getDataFromEdges } from '../model/PaginatedEdges';
 import { Yak } from '../model/Yak';
 
 const PostView = () => {

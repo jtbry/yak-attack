@@ -1,5 +1,5 @@
 import { Comment } from "./Comment";
-import { GqlEdges } from "./GqlEdges";
+import { PaginatedEdges } from "./PaginatedEdges";
 import { Yak } from "./Yak";
 
 export interface User {
@@ -8,6 +8,6 @@ export interface User {
   emoji: string;
   color: string;
   yakarmaScore: number;
-  yaks?: GqlEdges<Yak>;
-  comments?: GqlEdges<Comment>;
+  yaks?: PaginatedEdges<Yak>;
+  comments?: PaginatedEdges<Comment>;
 }

@@ -9,6 +9,7 @@ const AppContainer = (): JSX.Element => {
   const currentRoute = useLocation();
   const navigate = useNavigate();
   const yikyakUser = useAppSelector((state) => state.yikyakUser);
+  const location = useAppSelector((state) => state.location);
   const dispatch = useAppDispatch();
 
   return (
@@ -18,16 +19,11 @@ const AppContainer = (): JSX.Element => {
           className="flex items-center cursor-pointer"
           onClick={() => navigate(MY_PROFILE_VIEW)}
         >
-          {yikyakUser.user && (
-            <YikyakAvatar
-              emoji={yikyakUser.user.emoji}
-              color={yikyakUser.user.color}
-            />
+          {yikyakUser && (
+            <YikyakAvatar emoji={yikyakUser.emoji} color={yikyakUser.color} />
           )}
           <p className="text-lg font-bold ml-3 hidden md:block">
-            <span className="text-teal-500">
-              {yikyakUser.user?.yakarmaScore}
-            </span>{' '}
+            <span className="text-teal-500">{yikyakUser?.yakarmaScore}</span>{' '}
             Yakarma
           </p>
         </div>
@@ -36,7 +32,7 @@ const AppContainer = (): JSX.Element => {
           onClick={() => dispatch(setOnboardingStep(OnboardingStep.Location))}
         >
           <LocationMarkerIcon className="w-6 h-6 mr-1" />
-          <p className="font-bold">{yikyakUser.locationString}</p>
+          <p className="font-bold">{location.displayName}</p>
         </div>
       </div>
       {currentRoute.pathname !== '/' && (

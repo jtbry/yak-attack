@@ -9,24 +9,29 @@ import LocationSearch from '../../components/MapAddons/LocationSearch';
 import LocatorControl from '../../components/MapAddons/LocatorControl';
 import PointSelector from '../../components/MapAddons/PointSelector';
 import NotificationContainer from '../../components/NotificationContainer';
+import {
+  setLocationPoint,
+  setLocationString,
+} from '../../features/locationSlice';
 import { notify } from '../../features/notificationSlice';
 import {
   OnboardingStep,
   setOnboardingStep,
 } from '../../features/onboardingSlice';
-import { setUserLocation } from '../../features/yikyakUserSlice';
 
 const LocationOnboarding = (): JSX.Element => {
-  const location = useAppSelector((state) => state.yikyakUser.location);
+  const location = useAppSelector((state) => state.location);
   const dispatch = useAppDispatch();
 
   const setLocationDetails = async (point: LatLng) => {
     try {
-      const city = await getLocationStrFromLatLng(point);
-      dispatch(setUserLocation({ location: point, city: city }));
+      const locationString = await getLocationStrFromLatLng(point);
+      dispatch(setLocationPoint(point));
+      dispatch(setLocationString(locationString));
     } catch (e) {
       console.error(e);
-      dispatch(setUserLocation({ location: point, city: 'Error' }));
+      dispatch(setLocationPoint(point));
+      dispatch(setLocationString('Error'));
     }
   };
 
@@ -43,7 +48,7 @@ const LocationOnboarding = (): JSX.Element => {
 
       <LeafletMap
         className="h-96 w-full mt-4 rounded-md"
-        center={location}
+        center={location.point}
         zoom={4}
       >
         <PointSelector onChange={(point) => setLocationDetails(point)} />
@@ -59,7 +64,7 @@ const LocationOnboarding = (): JSX.Element => {
           }
         />
 
-        <Marker position={location} />
+        <Marker position={location.point} />
       </LeafletMap>
 
       <Button

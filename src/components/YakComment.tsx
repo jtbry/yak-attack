@@ -7,7 +7,7 @@ interface YakCardProps {
   comment: Comment;
 }
 const YakComment = ({ comment }: YakCardProps) => {
-  const myLocation = useAppSelector((state) => state.yikyakUser.location);
+  const myLocation = useAppSelector((state) => state.location.point);
 
   const voteColor = (vote: number) => {
     if (vote > 0) {

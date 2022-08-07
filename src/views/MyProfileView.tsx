@@ -7,7 +7,7 @@ import YakCard from '../components/YakCard';
 import YakComment from '../components/YakComment';
 import { setYikYakUser } from '../features/yikyakUserSlice';
 import { Comment } from '../model/Comment';
-import { getDataFromEdges } from '../model/GqlEdges';
+import { getDataFromEdges } from '../model/PaginatedEdges';
 import { User } from '../model/User';
 import { Yak } from '../model/Yak';
 
@@ -17,7 +17,6 @@ const MyProfileView = () => {
 
   useEffect(() => {
     if (data?.me) {
-      console.log(data);
       dispatch(
         setYikYakUser({ ...data.me, yaks: undefined, comments: undefined })
       );

@@ -13,7 +13,7 @@ interface YakCardProps {
   showAddress?: boolean;
 }
 const YakCard = ({ yak, onClick, showAddress }: YakCardProps) => {
-  const myLocation = useAppSelector((state) => state.yikyakUser.location);
+  const myLocation = useAppSelector((state) => state.location.point);
   const [yakLocation, setYakLocation] = useState(
     `${yak.point.coordinates[1]}, ${yak.point.coordinates[0]}`
   );

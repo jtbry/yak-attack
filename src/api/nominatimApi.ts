@@ -3,7 +3,6 @@ import { LatLng } from 'leaflet';
 import convertUsStateAbbrAndName from '../utils/constants';
 
 const nominatimBaseUrl = 'https://nominatim.openstreetmap.org/';
-// const nominatimBaseUrl = 'disabled';
 
 export const getLocationStrFromLatLng = async (point: LatLng) => {
   const nominatimUrl = nominatimBaseUrl + 'reverse'; 
