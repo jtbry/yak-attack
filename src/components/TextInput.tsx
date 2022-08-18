@@ -7,7 +7,7 @@ const TextInput = (props: TextInputProps): JSX.Element => {
   return (
     <input
       type="text"
-      className={`focus:outline-none focus:ring-1 focus:ring-teal-500 bg-gray-200 border-gray-400 dark:bg-zinc-700 dark:border-zinc-600 border p-2 block rounded-md ${className}`}
+      className={`focus:outline-none focus:ring-1 focus:ring-blue-400 bg-slate-800 border-slate-700 border p-2 block rounded-md ${className}`}
       {...otherProps}
     />
   );

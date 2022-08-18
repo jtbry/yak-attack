@@ -7,13 +7,18 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { yikyakApolloClient } from './api/yikyakApi';
 import App from './App';
 import { persistor, store } from './app/store';
-import PageLoader from './components/PageLoader';
+import LoadingSpinner from './components/LoadingSpinner';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={<PageLoader />} persistor={persistor}>
+      <PersistGate
+        loading={
+          <LoadingSpinner className="grid place-items-center" size="w-6 h-6" />
+        }
+        persistor={persistor}
+      >
         <ApolloProvider client={yikyakApolloClient}>
           <BrowserRouter>
             <App />

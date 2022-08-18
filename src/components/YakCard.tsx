@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { getAddressFromLatLng } from '../api/nominatimApi';
 import { useAppSelector } from '../app/hooks';
 import { Yak } from '../model/Yak';
-import { distanceToPoint } from '../utils/helpers';
+import { distanceToPoint, timeSinceTimestamp } from '../utils/helpers';
 import YikyakAvatar from './YikyakAvatar';
 
 interface YakCardProps {
@@ -35,19 +35,19 @@ const YakCard = ({ yak, onClick, showAddress }: YakCardProps) => {
 
   const voteColor = (vote: number) => {
     if (vote > 0) {
-      return 'text-teal-500';
+      return 'text-blue-400';
     } else if (vote < 0) {
       return 'text-red-800';
     }
-    return 'dark:text-gray-200 text-gray-600';
+    return 'text-gray-200';
   };
 
-  const clickableStyles = onClick
-    ? 'hover:bg-gray-300 hover:dark:bg-zinc-700 cursor-pointer'
-    : '';
   return (
     <div
-      className={`p-4 rounded-sm bg-gray-200 dark:bg-zinc-800 ${clickableStyles}`}
+      className={`
+        p-4 rounded-md bg-slate-800
+        ${onClick ? 'hover:bg-slate-700 cursor-pointer' : ''}
+      `}
       onClick={() => onClick && onClick(yak)}
     >
       <div className="flex justify-between">
@@ -68,15 +68,16 @@ const YakCard = ({ yak, onClick, showAddress }: YakCardProps) => {
       </div>
 
       <div className="flex items-center space-x-3 mt-2 justify-between">
-        <p className="text-sm dark:text-gray-500 text-zinc-600">
-          {new Date(yak.createdAt).toLocaleString()}, {yak.interestAreas}.
+        <p className="text-sm text-gray-500">
+          {timeSinceTimestamp(new Date(yak.createdAt))}{' '}
+          {yak.interestAreas ? `from ${yak.interestAreas}` : ''}
         </p>
         <span className="flex flex-row">
           <AnnotationIcon className="w-6 h-6 mr-2" />
           {yak.commentCount} comments
         </span>
       </div>
-      <div className="flex justify-between text-sm dark:text-gray-500 text-zinc-600">
+      <div className="flex justify-between text-sm text-gray-500">
         <p>
           {yak.isIncognito ? 'Hidden' : 'Public'},{' '}
           {distanceToPoint(yak.point.coordinates, myLocation)} away

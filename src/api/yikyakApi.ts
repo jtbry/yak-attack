@@ -99,6 +99,25 @@ export const GET_YIKYAK_FEED = gql`
   }
 `
 
+export const GET_ALL_YAKS = gql`
+  ${yakFragment}
+  query GetAllYaksFeed($after: String) {
+    allYaks(after: $after) {
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
+        edges {
+            node {
+              ...YakFragment
+            }
+        }
+    }
+  }
+`
+
 export const GET_YIKYAK_POST = gql`
   ${yakFragment}
   ${commentFragment}

@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
   userAuth: userAuthReducer,
   yikyakUser: yikyakUserReducer,
   location: locationReducer
-})
+});
 
 export const store = configureStore({
   devTools: true,

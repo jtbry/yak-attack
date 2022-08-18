@@ -58,7 +58,7 @@ export const getAddressFromLatLng = async (point: LatLng) => {
     }
   });
   const addr = response.data.address;
-  return `${addr.house_number} ${addr.road}, ${addr.city}, ${addr.state}`;
+  return `${addr.house_number ?? ''} ${addr.road}, ${addr.city}, ${addr.state}`;
 }
 
 export const searchForLocation = async (query: string) => {

@@ -48,7 +48,7 @@ const YakAvatarMarker = ({ forPost }: YakAvatarMarkerProps) => {
       <Marker
         position={position}
         icon={L.divIcon({
-          className: '',
+          className: 'text-zinc-900',
           iconAnchor: [0, 24],
           popupAnchor: [8, -16],
           html: `

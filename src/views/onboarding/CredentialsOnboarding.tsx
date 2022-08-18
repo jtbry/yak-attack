@@ -8,7 +8,7 @@ import { getMyYikyakUser } from '../../api/yikyakApi';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Button from '../../components/Button';
 import NotificationContainer from '../../components/NotificationContainer';
-import RadioGroup from '../../components/RadioGroup';
+import RadioSelector from '../../components/RadioSelector';
 import TextInput from '../../components/TextInput';
 import { notify } from '../../features/notificationSlice';
 import {
@@ -16,6 +16,11 @@ import {
   setOnboardingStep,
 } from '../../features/onboardingSlice';
 import { setYikYakUser } from '../../features/yikyakUserSlice';
+
+const tokenTypes = [
+  { label: 'Bearer', value: 'bearer' },
+  { label: 'Refresh', value: 'refresh' },
+];
 
 const CredentialsOnboarding = (): JSX.Element => {
   const { existingToken, existingTokenType } = useAppSelector((state) => {
@@ -74,16 +79,13 @@ const CredentialsOnboarding = (): JSX.Element => {
         Please enter your credentials to continue.
       </p>
 
-      <RadioGroup
-        groupLabel="Token Type"
-        defaultValue={tokenType}
-        buttons={[
-          { label: 'Bearer', value: 'bearer' },
-          { label: 'Refresh', value: 'refresh' },
-        ]}
-        onChange={(value) => setTokenType(value)}
-        className="mt-4"
+      <RadioSelector
+        label="Select Token Type"
+        value={tokenType}
+        onChange={setTokenType}
+        list={tokenTypes}
       />
+
       <TextInput
         placeholder="Token"
         className="w-full mt-4"

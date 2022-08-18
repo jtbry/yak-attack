@@ -2,9 +2,10 @@ import { useQuery } from '@apollo/client';
 import { useEffect } from 'react';
 import { GET_YIKYAK_PROFILE } from '../api/yikyakApi';
 import { useAppDispatch } from '../app/hooks';
-import DataLoaderPreview from '../components/DataLoaderPreview';
+import Button from '../components/Button';
 import YakCard from '../components/YakCard';
 import YakComment from '../components/YakComment';
+import { OnboardingStep, setOnboardingStep } from '../features/onboardingSlice';
 import { setYikYakUser } from '../features/yikyakUserSlice';
 import { Comment } from '../model/Comment';
 import { getDataFromEdges } from '../model/PaginatedEdges';
@@ -23,10 +24,12 @@ const MyProfileView = () => {
     }
   }, []);
 
+  const logout = () => {
+    dispatch(setOnboardingStep(OnboardingStep.Credentials));
+  };
+
   if (!data || !data.me) {
-    return (
-      <DataLoaderPreview loading={loading} error={error ?? 'Missing Data'} />
-    );
+    return <p>Loading...</p>;
   }
 
   // todo: YakFeed
@@ -45,9 +48,13 @@ const MyProfileView = () => {
       return <YakCard key={post.id} yak={post} />;
     }
   };
+
   return (
     <div className="space-y-2">
       {combined.map((post: Yak | Comment) => createElement(post))}
+      <Button buttonStyle="danger" onClick={() => logout()}>
+        Logout
+      </Button>
     </div>
   );
 };

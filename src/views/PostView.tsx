@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { GET_YIKYAK_POST } from '../api/yikyakApi';
-import DataLoaderPreview from '../components/DataLoaderPreview';
 import LeafletMap from '../components/LeafletMap';
 import YakAvatarMarker from '../components/MapAddons/YakAvatarMarker';
 import YakCard from '../components/YakCard';
@@ -17,9 +16,7 @@ const PostView = () => {
   });
 
   if (!data || !data.yak) {
-    return (
-      <DataLoaderPreview loading={loading} error={error ?? 'Missing Data'} />
-    );
+    return <p>Loading...</p>;
   } else {
     const yak = data.yak;
     const comments = getDataFromEdges(yak.comments);
