@@ -35,7 +35,8 @@ const LiveMapView = () => {
   const yaks = getDataFromEdges(data.feed);
   return (
     <LeafletMap
-      className="h-96 w-full mt-4 rounded-md"
+      className="w-full mt-4 rounded-md"
+      style={{ height: 'calc(100vh - 8rem)' }}
       center={location}
       zoom={19}
     >

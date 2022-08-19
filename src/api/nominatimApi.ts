@@ -20,7 +20,7 @@ export const getLocationStrFromLatLng = async (point: LatLng) => {
 
   const addr = response.data.address;
   const state = convertUsStateAbbrAndName(addr.state) ?? addr.country ?? "Unknown";
-  const city = addr.city ?? addr.town ?? addr.village ?? addr.county ?? "Unknown";
+  const city = addr.city ?? addr.suburb ?? addr.town ?? addr.village ?? addr.county ?? "Unknown";
   return `${city}, ${state}`;
 }
 
@@ -33,6 +33,8 @@ export interface LocationSearchResult {
     neighbourhood: string;
     suburb: string;
     city: string;
+    town: string;
+    village: string;
     county: string;
     state: string;
     ISO3166: string;
@@ -58,7 +60,7 @@ export const getAddressFromLatLng = async (point: LatLng) => {
     }
   });
   const addr = response.data.address;
-  return `${addr.house_number ?? ''} ${addr.road}, ${addr.city}, ${addr.state}`;
+  return `${addr.house_number ?? ''} ${addr.road}, ${addr.city ?? addr.suburb?? addr.town ?? addr.village ?? addr.county}, ${addr.state}`;
 }
 
 export const searchForLocation = async (query: string) => {
