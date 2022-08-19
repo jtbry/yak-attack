@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
+import homeFeedReducer from '../features/homeFeedSlice';
 import locationReducer from '../features/locationSlice';
 import notificationReducer from '../features/notificationSlice';
 import onboardingReducer from '../features/onboardingSlice';
@@ -11,7 +12,7 @@ import yikyakUserReducer from '../features/yikyakUserSlice';
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['notifications']
+  blacklist: ['notifications', 'homeFeed']
 }
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   notifications: notificationReducer,
   userAuth: userAuthReducer,
   yikyakUser: yikyakUserReducer,
-  location: locationReducer
+  location: locationReducer,
+  homeFeed: homeFeedReducer
 });
 
 export const store = configureStore({

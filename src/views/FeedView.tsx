@@ -1,38 +1,62 @@
 import { useQuery } from '@apollo/client';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GET_ALL_YAKS, GET_YIKYAK_FEED } from '../api/yikyakApi';
-import { useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import ListSelector from '../components/ListSelector';
 import LoadingSpinner from '../components/LoadingSpinner';
+import PaginatedData from '../components/PaginatedData';
 import YakCard from '../components/YakCard';
-import { getDataFromEdges, PaginatedEdges } from '../model/PaginatedEdges';
+import {
+  setCurrentPage,
+  setFeedOrder,
+  setFeedType,
+} from '../features/homeFeedSlice';
+import { PageInfo, PaginatedEdges } from '../model/PaginatedEdges';
 import { Yak } from '../model/Yak';
-import { POST_VIEW } from '../utils/constants';
-
-const availableFeedTypes = ['LOCAL', 'ALL'] as const;
-type FeedType = typeof availableFeedTypes[number];
-
-const availableFeedOrders = ['NEW', 'HOT', 'TOP'] as const;
-type FeedOrder = typeof availableFeedOrders[number];
+import {
+  AVAILABLE_FEED_ORDERS,
+  AVAILABLE_FEED_TYPES,
+  POST_VIEW,
+} from '../utils/constants';
 
 const FeedView = (): JSX.Element => {
+  // TODO: convert local state to redux so it remains after viewing a yak
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const location = useAppSelector((state) => state.location.point);
-  const [feedType, setFeedType] = useState<FeedType>('LOCAL');
-  const [feedOrder, setFeedOrder] = useState<FeedOrder>('NEW');
+  const { feedType, feedOrder, currentPage } = useAppSelector(
+    (state) => state.homeFeed
+  );
 
-  const { loading, error, data } = useQuery<{
-    feed: PaginatedEdges<Yak>;
-    allYaks: PaginatedEdges<Yak>;
-  }>(feedType === 'LOCAL' ? GET_YIKYAK_FEED : GET_ALL_YAKS, {
-    variables: {
-      feedType: feedType,
-      feedOrder: feedOrder,
-      location: `POINT(${location.lng} ${location.lat})`,
-    },
-    pollInterval: 20000,
-  });
+  const { loading, error, data, refetch, startPolling, stopPolling } =
+    useQuery<{
+      feed: PaginatedEdges<Yak>;
+      allYaks: PaginatedEdges<Yak>;
+    }>(feedType === 'LOCAL' ? GET_YIKYAK_FEED : GET_ALL_YAKS, {
+      variables: {
+        feedType: feedType,
+        feedOrder: feedOrder,
+        location: `POINT(${location.lng} ${location.lat})`,
+      },
+    });
+
+  const queryNewFeedPage = (direction: number, page: PageInfo) => {
+    if (direction > 0) {
+      refetch({
+        feedType: feedType,
+        feedOrder: feedOrder,
+        location: `POINT(${location.lng} ${location.lat})`,
+        after: page.endCursor,
+      });
+    } else {
+      refetch({
+        feedType: feedType,
+        feedOrder: feedOrder,
+        location: `POINT(${location.lng} ${location.lat})`,
+        before: page.startCursor,
+      });
+    }
+  };
 
   let content;
   if (loading) {
@@ -47,21 +71,33 @@ const FeedView = (): JSX.Element => {
       <h1 className="mt-24 flex justify-center text-4xl">No Content</h1>
     );
   } else {
-    const yaks =
-      feedType === 'LOCAL'
-        ? getDataFromEdges(data.feed)
-        : getDataFromEdges(data.allYaks);
-    content = (
-      <>
-        {yaks.map((yak) => (
-          <YakCard
-            key={yak.id}
-            yak={yak}
-            onClick={() => navigate(POST_VIEW.replace(':id', yak.id))}
-          />
-        ))}
-      </>
-    );
+    // For some reason pollInterval is broken, this is a workaround
+    if (currentPage != 0) startPolling(20000);
+    else stopPolling();
+
+    const onPageChange = (page: number) => {
+      dispatch(setCurrentPage(page));
+    };
+
+    const paginatedOptions = {
+      pageSize: 5,
+      startPage: currentPage,
+      render: (yak: Yak) => (
+        <YakCard
+          key={yak.id}
+          yak={yak}
+          onClick={() => navigate(POST_VIEW.replace(':id', yak.id))}
+        />
+      ),
+      fetchMore: queryNewFeedPage,
+      onChange: onPageChange,
+    };
+    content =
+      feedType === 'LOCAL' ? (
+        <PaginatedData data={data.feed} {...paginatedOptions} />
+      ) : (
+        <PaginatedData data={data.allYaks} {...paginatedOptions} />
+      );
   }
 
   // TODO: the go back button doesn't respect local/all feed
@@ -71,16 +107,16 @@ const FeedView = (): JSX.Element => {
         <div className="w-full md:w-1/5">
           <ListSelector
             value={feedType}
-            list={availableFeedTypes}
-            onChange={setFeedType}
+            list={AVAILABLE_FEED_TYPES}
+            onChange={(type) => dispatch(setFeedType(type))}
           />
         </div>
         {feedType === 'LOCAL' && (
           <div className="w-full md:w-1/5">
             <ListSelector
               value={feedOrder}
-              list={availableFeedOrders}
-              onChange={setFeedOrder}
+              list={AVAILABLE_FEED_ORDERS}
+              onChange={(order) => dispatch(setFeedOrder(order))}
               mirror
             />
           </div>

@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
 import { GET_YIKYAK_FEED } from '../api/yikyakApi';
 import { useAppSelector } from '../app/hooks';
 import LeafletMap from '../components/LeafletMap';
@@ -9,7 +8,6 @@ import { getDataFromEdges, PaginatedEdges } from '../model/PaginatedEdges';
 import { Yak } from '../model/Yak';
 
 const LiveMapView = () => {
-  const navigate = useNavigate();
   const location = useAppSelector((state) => state.location.point);
 
   const { loading, error, data } = useQuery<{

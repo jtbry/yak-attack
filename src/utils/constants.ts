@@ -10,6 +10,9 @@ export const LEAFLET_POSITION_CLASSES = {
   topright: 'leaflet-top leaflet-right',
 };
 
+export const AVAILABLE_FEED_ORDERS = ['NEW', 'HOT', 'TOP'] as const;
+export const AVAILABLE_FEED_TYPES = ['LOCAL', 'ALL'] as const; 
+
 export default function convertUsStateAbbrAndName(input: string): string | null {
   const toAbbr = input.length !== 2;
 

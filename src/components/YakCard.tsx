@@ -70,7 +70,7 @@ const YakCard = ({ yak, onClick, showAddress }: YakCardProps) => {
       <div className="flex items-center space-x-3 mt-2 justify-between">
         <p className="text-sm text-gray-500">
           {timeSinceTimestamp(new Date(yak.createdAt))}{' '}
-          {yak.interestAreas ? `from ${yak.interestAreas}` : ''}
+          {yak.interestAreas ? `from ${yak.interestAreas}` : 'from UNKNOWN'}
         </p>
         <span className="flex flex-row">
           <AnnotationIcon className="w-6 h-6 mr-2" />
@@ -79,8 +79,10 @@ const YakCard = ({ yak, onClick, showAddress }: YakCardProps) => {
       </div>
       <div className="flex justify-between text-sm text-gray-500">
         <p>
-          {yak.isIncognito ? 'Hidden' : 'Public'},{' '}
-          {distanceToPoint(yak.point.coordinates, myLocation)} away
+          <span className={`${!yak.isIncognito ? 'text-blue-400' : ''}`}>
+            {yak.isIncognito ? 'Hidden' : 'Public'}
+          </span>
+          {' ' + distanceToPoint(yak.point.coordinates, myLocation)} away
         </p>
         <p>{yakLocation}</p>
       </div>
