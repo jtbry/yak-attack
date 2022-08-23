@@ -64,7 +64,12 @@ const FeedView = (): JSX.Element => {
         )}
       </div>
       <QuerySuspense className="mt-2 space-y-2" query={feedQuery}>
-        {({ loading, error, data }: QueryResult<FeedQueryResult>) => {
+        {({
+          loading,
+          error,
+          data,
+          startPolling,
+        }: QueryResult<FeedQueryResult>) => {
           if (loading) {
             return (
               <LoadingSpinner
@@ -78,6 +83,7 @@ const FeedView = (): JSX.Element => {
               <h1 className="mt-24 flex justify-center text-4xl">Error</h1>
             );
           } else {
+            startPolling(10000);
             return (
               <PaginatedViewer
                 render={(yak: Yak) => (
@@ -88,6 +94,7 @@ const FeedView = (): JSX.Element => {
                   />
                 )}
                 data={data.feed ?? data.allYaks}
+                pageSize={5}
               />
             );
           }
