@@ -8,7 +8,7 @@ import PaginatedViewer from '../components/PaginatedViewer';
 import QuerySuspense from '../components/QuerySuspense';
 import YakCard from '../components/YakCard';
 import { setFeedOrder, setFeedType } from '../features/homeFeedSlice';
-import { PaginatedEdges } from '../model/PaginatedEdges';
+import { PageInfo, PaginatedEdges } from '../model/PaginatedEdges';
 import { Yak } from '../model/Yak';
 import {
   AVAILABLE_FEED_ORDERS,
@@ -68,6 +68,7 @@ const FeedView = (): JSX.Element => {
           loading,
           error,
           data,
+          refetch,
           startPolling,
         }: QueryResult<FeedQueryResult>) => {
           if (loading) {
@@ -84,6 +85,20 @@ const FeedView = (): JSX.Element => {
             );
           } else {
             startPolling(10000);
+            const fetchMore = (currPage: PageInfo, direction: 1 | -1) => {
+              console.log('fetch more');
+              if (direction === 1) {
+                // refetch with after
+                refetch({
+                  after: currPage.endCursor,
+                });
+              } else {
+                // refetch with before
+                refetch({
+                  before: currPage.startCursor,
+                });
+              }
+            };
             return (
               <PaginatedViewer
                 render={(yak: Yak) => (
@@ -94,7 +109,8 @@ const FeedView = (): JSX.Element => {
                   />
                 )}
                 data={data.feed ?? data.allYaks}
-                pageSize={5}
+                pageSize={4}
+                fetchMore={fetchMore}
               />
             );
           }

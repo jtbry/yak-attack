@@ -23,7 +23,9 @@ const YakComment = ({ comment }: YakCardProps) => {
       <div className="flex justify-between">
         <div className="flex items-center space-x-3">
           <YikyakAvatar
-            emoji={comment.isOp ? 'OP' : comment.userEmoji}
+            emoji={
+              comment.isOp ? 'OP - ' + comment.userEmoji : comment.userEmoji
+            }
             color={comment.userColor}
             isMe={comment.isMine}
           />
