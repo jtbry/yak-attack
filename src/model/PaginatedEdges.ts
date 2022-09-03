@@ -1,5 +1,6 @@
 
 interface Edge<T> {
+  cursor: string;
   node: T;
 }
 
@@ -16,5 +17,8 @@ export interface PaginatedEdges<T> {
 }
 
 export const getDataFromEdges = <T>(paginated: PaginatedEdges<T>): T[] => {
+  if (!paginated) {
+    return [];
+  }
   return paginated.edges.map(edge => edge.node);
 }

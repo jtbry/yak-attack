@@ -2,6 +2,7 @@ export const FEED_VIEW = '/';
 export const POST_VIEW = '/post/:id';
 export const MY_PROFILE_VIEW = '/me';
 export const LIVE_MAP_VIEW = '/live-map';
+export const SEARCH_VIEW = '/search';
 
 export const LEAFLET_POSITION_CLASSES = {
   bottomleft: 'leaflet-bottom leaflet-left',

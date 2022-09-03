@@ -12,7 +12,7 @@ const initialState: LocationState = {
 };
 
 const locationSlice = createSlice({
-  name: 'location',
+  name: 'locatedion',
   initialState,
   reducers: {
     setLocationPoint: (state, action: PayloadAction<LatLng>) => {

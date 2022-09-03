@@ -32,18 +32,6 @@ const PaginatedViewer = ({
   };
 
   const changePage = (direction: 1 | -1) => {
-    // if the new page value would be more or less than the possible pages call fetch more
-    // if (
-    //   data.edges.length / pageSize < page + direction ||
-    //   data.edges.length / pageSize > page + direction
-    // ) {
-    //   if (fetchMore) {
-    //     setIsFetching(true);
-    //     fetchMore(data.pageInfo, direction);
-    //   }
-    // } else {
-    //   setPage(page + direction);
-    // }
     setPage(page + direction);
   };
 

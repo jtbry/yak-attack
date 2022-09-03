@@ -12,7 +12,7 @@ interface ListSelectorProps {
 const ListSelector = (props: ListSelectorProps): JSX.Element => {
   return (
     <Listbox value={props.value} onChange={props.onChange}>
-      <div className="relative mt-1">
+      <div className="relative">
         <Listbox.Button
           className={`relative w-full rounded-md bg-slate-800 border border-slate-700 p-2 font-medium ${
             props.mirror ? 'text-right' : 'text-left'

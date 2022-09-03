@@ -8,12 +8,14 @@ import {
   LIVE_MAP_VIEW,
   MY_PROFILE_VIEW,
   POST_VIEW,
+  SEARCH_VIEW,
 } from './utils/constants';
 import FeedView from './views/FeedView';
 import LiveMapView from './views/LiveMapView';
 import MyProfileView from './views/MyProfileView';
 import OnboardingView from './views/onboarding';
 import PostView from './views/PostView';
+import SearchView from './views/SearchView';
 
 function App() {
   const onboardingStep = useAppSelector((state) => state.onboarding.step);
@@ -28,6 +30,7 @@ function App() {
           <Route path={POST_VIEW} element={<PostView />} />
           <Route path={MY_PROFILE_VIEW} element={<MyProfileView />} />
           <Route path={LIVE_MAP_VIEW} element={<LiveMapView />} />
+          <Route path={SEARCH_VIEW} element={<SearchView />} />
           <Route path="*" element={<FeedView />} />
         </Route>
       </Routes>

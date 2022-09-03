@@ -132,6 +132,7 @@ export const GET_YIKYAK_POST = gql`
           hasPreviousPage
         }
         edges {
+          cursor
           node {
             ...CommentFragment
           }
@@ -180,4 +181,40 @@ export const GET_YIKYAK_PROFILE = gql`
     }
   }
 `
-
+export const GET_YIKYAKS_FROM_COMMENTS = gql`
+query GetYaksFromMyComments($after: String) {
+  me {
+    comments(after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          text
+          yak {
+            id
+            text
+            point
+            createdAt
+            userColor
+            userEmoji
+            comments {
+              edges {
+                node {
+                  id
+                  text
+                  point
+                  createdAt
+                  userColor
+                  userEmoji
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`

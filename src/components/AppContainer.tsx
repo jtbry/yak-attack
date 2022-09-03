@@ -3,11 +3,17 @@ import {
   LocationMarkerIcon,
   MapIcon,
   RewindIcon,
+  SearchIcon,
 } from '@heroicons/react/solid';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { OnboardingStep, setOnboardingStep } from '../features/onboardingSlice';
-import { FEED_VIEW, LIVE_MAP_VIEW, MY_PROFILE_VIEW } from '../utils/constants';
+import {
+  FEED_VIEW,
+  LIVE_MAP_VIEW,
+  MY_PROFILE_VIEW,
+  SEARCH_VIEW,
+} from '../utils/constants';
 import Button from './Button';
 import YikyakAvatar from './YikyakAvatar';
 
@@ -21,6 +27,11 @@ const nav = [
     label: 'Live Map',
     path: LIVE_MAP_VIEW,
     icon: <MapIcon className="w-6 h-6" />,
+  },
+  {
+    label: 'Search',
+    path: SEARCH_VIEW,
+    icon: <SearchIcon className="w-6 h-6" />,
   },
 ];
 
